@@ -16,6 +16,10 @@ body, html {
   background-color: #222222;
   font-family: "Gotham SSm A", "Gotham SSm B";
   font-style: normal;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
 }
 
 .content {

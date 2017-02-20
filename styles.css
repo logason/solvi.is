@@ -86,6 +86,10 @@ body, html {
 }
 
 @media (max-device-width: 700px) {
+  .content {
+    font-size: 30px;
+  }
+
   .link::after {
     transform: scale3d(1,1,1);
   }

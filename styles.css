@@ -84,3 +84,9 @@ body, html {
 .link--hibyli:hover ~ .backdrop {
   background-color: #4a90e2;
 }
+
+@media (max-device-width: 700px) {
+  .link::after {
+    transform: scale3d(1,1,1);
+  }
+}

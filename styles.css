@@ -40,7 +40,7 @@ body, html {
   z-index: 100;
 }
 
-.link--quizup {
+.link--quizup, .link--wowair {
   text-decoration: line-through;
 }
 
@@ -78,11 +78,17 @@ body, html {
 .link--wowair:hover ~ .backdrop {
   background-color: #99258d;
 }
+.link--viska:hover ~ .backdrop {
+  background-color: #EA4F3D;
+}
 .link--flytime:hover ~ .backdrop {
   background-color: #ff5722;
 }
 .link--hibyli:hover ~ .backdrop {
   background-color: #4a90e2;
+}
+.link--eldsneyti:hover ~ .backdrop {
+  background-color: #00B5D9;
 }
 
 @media (max-device-width: 700px) {

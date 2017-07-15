@@ -1,20 +1,20 @@
-
 * {
   box-sizing: border-box;
 }
 
 a {
-  color: #FFFFFF;
+  color: #ffffff;
   text-decoration: none;
 }
 
-body, html {
+body,
+html {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #FFFFFF;
+  color: #ffffff;
   background-color: #222222;
-  font-family: "Gotham SSm A", "Gotham SSm B";
+  font-family: 'Lato', sans-serif;
   font-style: normal;
   padding: 0;
   margin: 0;
@@ -35,12 +35,14 @@ body, html {
   padding: 20px 0;
 }
 
-.link, .text {
+.link,
+.text {
   position: relative;
   z-index: 100;
 }
 
-.link--quizup, .link--wowair {
+.link--quizup,
+.link--wowair {
   text-decoration: line-through;
 }
 
@@ -51,14 +53,13 @@ body, html {
   bottom: -3px;
   width: 100%;
   height: 5px;
-  background-color: #FFFFFF;
-  transform: scale3d(0,1,1);
+  background-color: #ffffff;
+  transform: scale3d(0, 1, 1);
   transition: all ease-in-out 200ms;
 }
 .link:hover::after {
-  transform: scale3d(1,1,1);
+  transform: scale3d(1, 1, 1);
 }
-
 
 .backdrop {
   position: fixed;
@@ -73,13 +74,13 @@ body, html {
   opacity: 0.9;
 }
 .link--quizup:hover ~ .backdrop {
-  background-color: #FF5454;
+  background-color: #ff5454;
 }
 .link--wowair:hover ~ .backdrop {
   background-color: #99258d;
 }
 .link--viska:hover ~ .backdrop {
-  background-color: #EA4F3D;
+  background-color: #ea4f3d;
 }
 .link--flytime:hover ~ .backdrop {
   background-color: #ff5722;
@@ -88,7 +89,7 @@ body, html {
   background-color: #4a90e2;
 }
 .link--eldsneyti:hover ~ .backdrop {
-  background-color: #00B5D9;
+  background-color: #00b5d9;
 }
 
 @media (max-device-width: 700px) {
@@ -97,6 +98,6 @@ body, html {
   }
 
   .link::after {
-    transform: scale3d(1,1,1);
+    transform: scale3d(1, 1, 1);
   }
 }

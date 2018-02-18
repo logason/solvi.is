@@ -91,6 +91,9 @@ html {
 .link--eldsneyti:hover ~ .backdrop {
   background-color: #00b5d9;
 }
+.link--jolasveinar:hover ~ .backdrop {
+  background-color: #043f5e;
+}
 
 @media (max-device-width: 700px) {
   .content {

@@ -43,7 +43,11 @@ html {
 
 .link--quizup,
 .link--wowair,
-.link--viska {
+.link--viska,
+.link--flytime,
+.link--hibyli,
+.link--eldsneyti,
+.link--timerr {
   text-decoration: line-through;
 }
 
@@ -100,6 +104,9 @@ html {
 }
 .link--timerr:hover ~ .backdrop {
   background-color: #333a42;
+}
+.link--imbinn:hover ~ .backdrop {
+  background-color: #2c46d2;
 }
 
 @media (max-device-width: 700px) {

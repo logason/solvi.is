@@ -121,7 +121,7 @@ footer { padding-block: 32px 56px; border-top: 1px solid var(--line); }
       <div class="stripe" aria-hidden="true"><span class="bars"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
       <p class="lede">Óopinbert app fyrir RÚV á Apple TV</p>
       <div class="cta">
-        <a class="btn js-signup" href="#skraning">Fá boð í prófunarhópinn</a>
+        <a class="btn js-signup" href="#skraning">Prófa í TestFlight</a>
         <span class="note">Ókeypis, engin innskráning</span>
       </div>
     </div>
@@ -145,13 +145,13 @@ footer { padding-block: 32px 56px; border-top: 1px solid var(--line); }
         <div class="stripe" aria-hidden="true"><span class="bars"><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
         <div>
           <h2>Vertu með í prófuninni</h2>
-          <p>Skráðu netfangið sem þú notar fyrir Apple&#8209;aðganginn.</p>
-          <a class="btn js-signup" href="#skraning">Skrá netfangið mitt</a>
+          <p>Opnaðu boðið á iPhone, iPad eða Mac og samþykktu það í TestFlight.</p>
+          <a class="btn js-signup" href="#skraning">Opna boðið í TestFlight</a>
         </div>
         <div>
           <ol class="steps">
-            <li><div><b>Þú skráir netfangið</b><span>Það sem tengist Apple ID.</span></div></li>
-            <li><div><b>Þú færð boð frá Apple</b><span>Í tölvupósti, með TestFlight.</span></div></li>
+            <li><div><b>Þú opnar boðið</b><span>Á iPhone, iPad eða Mac.</span></div></li>
+            <li><div><b>Þú samþykkir það</b><span>Í TestFlight, með Apple ID.</span></div></li>
             <li><div><b>Þú setur upp appið</b><span>Í TestFlight á Apple TV.</span></div></li>
           </ol>
           <p class="req">Apple TV með tvOS 26 eða nýrra. Sumt efni krefst íslenskrar nettengingar.</p>
@@ -192,17 +192,14 @@ footer { padding-block: 32px 56px; border-top: 1px solid var(--line); }
         <p>Appið er gert til að börn geti notað það og safnar engum upplýsingum frá börnum.</p>
         <h3>Prófun í TestFlight</h3>
         <p>Í prófunarútgáfu deilir Apple með okkur nafni og netfangi prófara, og hruntilkynningum og ábendingum sem prófarar kjósa sjálfir að senda. Það er unnið samkvæmt skilmálum Apple fyrir TestFlight og aðeins notað til að laga og bæta appið.</p>
-        <h3>Skráning á þessari síðu</h3>
-        <p>Ef þú skráir netfang í prófunarhópinn notum við það aðeins til að senda þér boð í prófunina og fréttir af henni. Við deilum því ekki með öðrum. Skráningin fer fram í ytra formi sem geymir svarið fyrir okkur. Þú getur hvenær sem er beðið um að netfanginu verði eytt.</p>
         <h3>Samband</h3>
-        <p>Spurningar um persónuvernd eða beiðnir um eyðingu netfangs má senda sem ábendingu úr TestFlight.</p>
+        <p>Spurningar um persónuvernd má senda sem ábendingu úr TestFlight.</p>
 
         <div lang="en" class="en">
           <h3>Privacy policy (English)</h3>
           <p><b>The app.</b> imbinn does not collect any personal data. It has no accounts, tracking, ads or analytics, and sends no information about you or what you watch to us or anyone else. Your settings are stored only on your Apple TV and are removed when you delete the app. Streams and programmes are loaded directly from RÚV's servers, which see your device's IP address as with any visit to ruv.is; RÚV's own privacy policy applies to that. imbinn is not affiliated with RÚV. The app is designed to be used by children and collects no information from them.</p>
           <p><b>TestFlight.</b> During beta testing, Apple shares testers' name and email with us, along with crash reports and feedback testers choose to send, under Apple's TestFlight terms. We use it only to fix and improve the app.</p>
-          <p><b>Beta sign-up on this site.</b> If you sign up for the test group, we use your email only to invite you and send news about the beta. We don't share it. You can ask us to delete it at any time.</p>
-          <p><b>Contact.</b> Send privacy questions or deletion requests as feedback from TestFlight.</p>
+          <p><b>Contact.</b> Send privacy questions as feedback from TestFlight.</p>
         </div>
       </div>
     </div>
@@ -219,8 +216,8 @@ footer { padding-block: 32px 56px; border-top: 1px solid var(--line); }
 </footer>
 
 <script>
-  // Hlekkur á skráningarformið. Á meðan hann vantar vísa takkarnir á skráningarkaflann.
-  const SIGNUP_URL = "";
+  // Opinber TestFlight-hlekkur. Ef hann vantar vísa takkarnir á skráningarkaflann.
+  const SIGNUP_URL = "https://testflight.apple.com/join/UkPdC8wf";
   if (SIGNUP_URL) {
     document.querySelectorAll(".js-signup").forEach((a) => {
       a.href = SIGNUP_URL;

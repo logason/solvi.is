@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="is">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Jólasveinar</title>
+<meta name="description" content="Jólasveinar – appið sem minnir þig á hvaða jólasveinn kemur í nótt, svo skórinn gleymist aldrei í glugganum. Ókeypis, án auglýsinga og virkar án nets.">
+<meta name="theme-color" content="#033F5E">
+<meta property="og:title" content="Jólasveinar">
+<meta property="og:description" content="Jólasveinar – appið sem minnir þig á hvaða jólasveinn kemur í nótt, svo skórinn gleymist aldrei í glugganum. Ókeypis, án auglýsinga og virkar án nets.">
+<meta property="og:image" content="https://solvi.is/jolasveinar/og.png">
+<meta property="og:url" content="https://solvi.is/jolasveinar/">
+<meta property="og:locale" content="is_IS">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap">
+<style>
+/* Litir úr header.ai: næturhiminn, tungl, gluggaljós og þak. */
+:root {
+  --bg: #033F5E;
+  --bg-deep: #062C42;
+  --panel: rgba(255,255,255,.06);
+  --panel-line: rgba(255,255,255,.12);
+  --fg: #FFFFFF;
+  --muted: #B9CCD8;
+  --moon: #F3EE9C;
+  --window: #F5A93A;
+  --roof: #3A0B1C;
+  --serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 17px; line-height: 1.55; overflow-x: hidden; }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+p { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--moon); outline-offset: 3px; border-radius: 6px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding-inline: 16px; }
+
+/* Snjór */
+#snow { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+main, footer { position: relative; z-index: 1; }
+
+/* Forsíða */
+.hero { text-align: center; padding-top: 24px; overflow: hidden; }
+.scene { display: block; width: min(980px, 140vw); margin: 0 auto; margin-left: 50%; transform: translateX(-50%); height: auto; }
+.wordmark { display: block; width: min(300px, 64vw); height: auto; margin: -8px auto 0; }
+.hero h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(30px, 6vw, 48px); line-height: 1.15; margin-top: 28px; color: var(--moon); }
+.hero .lead { max-width: 34em; margin: 14px auto 0; font-size: clamp(17px, 2.4vw, 20px); color: var(--muted); }
+.jump { display: inline-block; margin-top: 28px; padding: 13px 22px; border-radius: 999px; background: var(--moon); color: var(--bg-deep); font-weight: 650; text-decoration: none; }
+.jump:hover { filter: brightness(1.05); }
+
+section { padding-block: 64px 0; }
+h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(26px, 4.4vw, 36px); line-height: 1.2; text-align: center; }
+.sub { text-align: center; color: var(--muted); margin-top: 8px; }
+
+/* Sækja appið */
+.get-grid { display: grid; gap: 16px; margin-top: 28px; grid-template-columns: 1fr; }
+@media (min-width: 820px) { .get-grid { grid-template-columns: 5fr 7fr; align-items: start; } }
+.card { background: var(--panel); border: 1px solid var(--panel-line); border-radius: 22px; padding: 24px; }
+.card h3 { font-family: var(--serif); font-size: 24px; line-height: 1.25; display: flex; gap: 10px; align-items: center; }
+.card h3 svg { flex: none; width: 26px; height: 26px; color: var(--moon); }
+.card > p { margin-top: 10px; color: var(--muted); }
+#ios { display: flex; flex-direction: column; }
+#ios .pal { display: block; width: 62%; max-width: 230px; height: auto; margin: 8px auto -24px; align-self: center; }
+@media (max-width: 819px) { #ios .pal { display: none; } }
+.badge { display: inline-block; margin-top: 18px; line-height: 0; }
+.badge img { height: 52px; width: auto; }
+.badge--play img { height: 78px; margin: -13px -10px; } /* PNG-merkið er með innbyggðu bili */
+[data-stage="test"] .live, [data-stage="live"] .test { display: none; }
+
+.steps { list-style: none; padding: 0; margin: 20px 0 0; counter-reset: s; display: grid; gap: 12px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 36px 1fr; gap: 0 14px; padding: 16px; border-radius: 16px; background: rgba(6,44,66,.55); }
+.steps li::before { content: counter(s); grid-row: span 3; width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--window); color: var(--roof); font-weight: 800; font-size: 17px; }
+.steps h4 { margin: 5px 0 0; font-size: 17px; line-height: 1.3; }
+.steps p { color: var(--muted); font-size: 15.5px; margin-top: 4px; }
+.btn { justify-self: start; display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 18px; border-radius: 999px; background: var(--window); color: var(--roof); font-weight: 700; font-size: 15.5px; text-decoration: none; }
+.btn:hover { filter: brightness(1.06); }
+.btn .soon { display: none; }
+.btn:not([href]) { background: transparent; color: var(--muted); border: 1.5px dashed var(--panel-line); cursor: default; filter: none; }
+.btn:not([href]) .go { display: none; }
+.btn:not([href]) .soon { display: inline; }
+.tip { margin-top: 14px; font-size: 15px; color: var(--muted); display: flex; gap: 8px; }
+.tip svg { flex: none; width: 18px; height: 18px; margin-top: 3px; color: var(--moon); }
+
+/* Kostir */
+.features { display: grid; gap: 16px; margin-top: 28px; grid-template-columns: 1fr; }
+@media (min-width: 720px) { .features { grid-template-columns: repeat(3, 1fr); } }
+.feature { padding: 22px; border-radius: 20px; background: var(--panel); border: 1px solid var(--panel-line); }
+.feature svg { width: 30px; height: 30px; color: var(--moon); }
+.feature h3 { font-size: 19px; margin-top: 12px; }
+.feature p { color: var(--muted); margin-top: 6px; font-size: 16px; }
+
+/* Jólasveinarnir */
+.lads { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 28px 16px 20px; scroll-padding-inline: 16px; scrollbar-width: thin; scrollbar-color: var(--panel-line) transparent; }
+@media (min-width: 1072px) { .lads { padding-inline: calc((100vw - 1040px) / 2 + 16px); scroll-padding-inline: calc((100vw - 1040px) / 2 + 16px); } }
+.lad { margin: 0; flex: none; width: 168px; scroll-snap-align: start; border-radius: 20px; background: var(--c); overflow: hidden; display: flex; flex-direction: column; }
+.lad img { display: block; width: 100%; height: auto; aspect-ratio: 700 / 900; object-fit: cover; object-position: top; }
+.lad div { padding: 2px 14px 14px; }
+.lad b { display: block; font-family: var(--serif); font-size: 18px; line-height: 1.2; }
+.lad small { display: block; font-size: 13.5px; opacity: .85; margin-top: 2px; }
+.lad.tonight { outline: 3px solid var(--moon); outline-offset: -3px; }
+
+footer { padding: 72px 0 calc(40px + env(safe-area-inset-bottom)); text-align: center; color: var(--muted); font-size: 15px; }
+footer .bye { font-family: var(--serif); font-size: 22px; color: var(--fg); margin-bottom: 18px; }
+footer p + p { margin-top: 4px; }
+footer a { color: var(--fg); }
+footer nav { margin-top: 18px; display: flex; gap: 18px; justify-content: center; }
+
+@media (prefers-reduced-motion: reduce) { #snow { display: none; } .lads { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+<canvas id="snow" aria-hidden="true"></canvas>
+<main>
+  <header class="hero">
+    <img class="scene" src="scene.webp" width="1960" height="760" alt="">
+    <img class="wordmark" src="wordmark.png" width="705" height="170" alt="Jólasveinar">
+    <div class="wrap">
+      <h1>Ekki koma af fjöllum!</h1>
+      <p class="lead">Jólasveinavaktin lætur þig vita að morgni hvaða jólasveinn kemur í nótt og aftur að kvöldi þegar hann er kominn til byggða. Þannig gleymist skórinn aldrei í glugganum.</p>
+      <a class="jump" href="#saekja">Náðu í appið</a>
+    </div>
+  </header>
+
+  <section id="saekja" class="wrap">
+    <h2>Náðu í appið</h2>
+    <div class="get-grid">
+      <article class="card" id="ios">
+        <h3><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.66-.39 6.6 1.1 8.75.73 1.05 1.6 2.24 2.73 2.2 1.1-.05 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.47-.03-.01-2.3-.88-2.3-3.5ZM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.68-.92 2.67.97.08 1.96-.49 2.56-1.22Z"/></svg>iPhone</h3>
+        <p>Sæktu appið ókeypis í App Store.</p>
+        <a class="badge" href="https://apps.apple.com/is/app/j%C3%B3lasveinar/id1320667824" aria-label="Sækja Jólasveina í App Store"><img src="appStoreBadge.svg" width="135" height="40" alt="Download on the App Store"></a>
+        <img class="pal" src="lads/ketkrokur.webp" width="700" height="1023" alt="" loading="lazy">
+      </article>
+
+      <!-- Þegar appið er komið á Google Play: breyta data-stage="test" í data-stage="live". -->
+      <article class="card" id="android" data-stage="test">
+        <h3><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.4 11.4 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52ZM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"/></svg><span class="test">Android: Hjálpaðu okkur að komast á Google Play</span><span class="live">Android</span></h3>
+
+        <div class="live">
+          <p style="margin-top:10px;color:var(--muted)">Sæktu appið ókeypis á Google Play.</p>
+          <a class="badge badge--play" href="https://play.google.com/store/apps/details?id=com.logason.jolasveinar"><img src="googlePlayBadge.png" width="646" height="250" alt="Get it on Google Play"></a>
+        </div>
+
+        <div class="test">
+          <p style="margin-top:10px;color:var(--muted)">Appið er ekki enn komið á Google Play. Google gerir þá kröfu að app frá nýjum útgefanda sé prófað af að minnsta kosti 12 manns í 14 daga samfleytt áður en það má koma út þar. Ef þú hjálpar okkur færðu appið á undan öllum öðrum og sérð til þess að það komist á Google Play fyrir jól.</p>
+          <ol class="steps">
+            <li>
+              <h4>Gakktu í Google-hópinn</h4>
+              <p>Notaðu sama Google-reikning og er á símanum þínum.</p>
+              <!-- TODO: setja slóð Google-hópsins í href, t.d. https://groups.google.com/g/HÓPUR -->
+              <a class="btn" target="_blank" rel="noopener"><span class="go">Ganga í hópinn ↗</span><span class="soon">Opnar fljótlega</span></a>
+            </li>
+            <li>
+              <h4>Þiggðu boðið á Google Play</h4>
+              <p>Opnaðu boðssíðuna og ýttu á „Become a tester“.</p>
+              <!-- TODO: setja href="https://play.google.com/apps/testing/com.logason.jolasveinar" þegar lokaða prófunin er komin í loftið -->
+              <a class="btn" target="_blank" rel="noopener"><span class="go">Þiggja boðið ↗</span><span class="soon">Opnar fljótlega</span></a>
+            </li>
+            <li>
+              <h4>Sæktu appið</h4>
+              <p>Á boðssíðunni er hlekkur á appið á Google Play. Þú setur það upp eins og hvert annað app.</p>
+            </li>
+            <li>
+              <h4>Haltu appinu á símanum í 14 daga</h4>
+              <p>Ekki eyða appinu og opnaðu það öðru hverju í að minnsta kosti tvær vikur. Meira þarf ekki!</p>
+            </li>
+          </ol>
+          <p class="tip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>Gott ráð: Notaðu sama Google-reikninginn í öllum skrefunum, þann sem þú ert með á símanum.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <h2>Hvað er í appinu?</h2>
+    <div class="features">
+      <div class="feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10.3 20a1.94 1.94 0 0 0 3.4 0"/></svg>
+        <h3>Jólasveinavaktin</h3><p>Klukkan 9 að morgni færðu að vita hvaða jólasveinn kemur í nótt og klukkan 21 að hann sé kominn til byggða. Áminningarnar virka líka án nets.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z"/></svg>
+        <h3>Sveinn dagsins</h3><p>Frá 12. til 24. desember opnast appið á jólasveininum sem er væntanlegur þá um nóttina, með fallegri teikningu sem lifnar við, fróðleik og nýju ljóði.</p>
+      </div>
+      <div class="feature">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <h3>Ekkert vesen</h3><p>Engin gagnasöfnun, engar auglýsingar og appið virkar án nets. Og það kostar ekki neitt.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>Hver kemur hvenær?</h2>
+      <p class="sub">Þrettán sveinar, þrettán nætur og einn skór í glugga.</p>
+    </div>
+    <div class="lads" id="lads">
+      <figure class="lad" data-day="12" style="--c:#147CB8"><img src="lads/stekkjastaur.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Stekkjarstaur</b><small>12. desember</small></div></figure>
+      <figure class="lad" data-day="13" style="--c:#614877"><img src="lads/giljagaur.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Giljagaur</b><small>13. desember</small></div></figure>
+      <figure class="lad" data-day="14" style="--c:#357E81"><img src="lads/stufur.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Stúfur</b><small>14. desember</small></div></figure>
+      <figure class="lad" data-day="15" style="--c:#1FA2B9"><img src="lads/thvorusleikir.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Þvörusleikir</b><small>15. desember</small></div></figure>
+      <figure class="lad" data-day="16" style="--c:#095F74"><img src="lads/pottasleikir.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Pottaskefill</b><small>16. desember</small></div></figure>
+      <figure class="lad" data-day="17" style="--c:#343060"><img src="lads/askasleikir.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Askasleikir</b><small>17. desember</small></div></figure>
+      <figure class="lad" data-day="18" style="--c:#004070"><img src="lads/hurdaskellir.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Hurðaskellir</b><small>18. desember</small></div></figure>
+      <figure class="lad" data-day="19" style="--c:#9E6D3C"><img src="lads/skyrgamur.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Skyrgámur</b><small>19. desember</small></div></figure>
+      <figure class="lad" data-day="20" style="--c:#6A8367"><img src="lads/bjugnakraekir.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Bjúgnakrækir</b><small>20. desember</small></div></figure>
+      <figure class="lad" data-day="21" style="--c:#753363"><img src="lads/gluggagaegir.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Gluggagægir</b><small>21. desember</small></div></figure>
+      <figure class="lad" data-day="22" style="--c:#943D44"><img src="lads/gattathefur.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Gáttaþefur</b><small>22. desember</small></div></figure>
+      <figure class="lad" data-day="23" style="--c:#61809D"><img src="lads/ketkrokur.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Ketkrókur</b><small>23. desember</small></div></figure>
+      <figure class="lad" data-day="24" style="--c:#032F4B"><img src="lads/kertasnikir.webp" width="700" height="1023" alt="" loading="lazy"><div><b>Kertasníkir</b><small>24. desember</small></div></figure>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p class="bye">Gleðileg jól – og ekki gleyma skónum!</p>
+  <p>Teikningar: Stefan Große Halbuer · Ljóð: Lilja Ólafsdóttir</p>
+  <p>Hönnun og forritun: Hrönn Róbertsdóttir og <a href="https://solvi.is">Sölvi Logason</a></p>
+  <nav><a href="https://jolasveinar.app/privacy.html">Persónuvernd</a></nav>
+</footer>
+
+<script>
+// Merkja jólasvein næturinnar (12.–24. des.)
+(function () {
+  var d = new Date(), day = d.getDate();
+  if (d.getMonth() === 11 && day >= 12 && day <= 24) {
+    var el = document.querySelector('.lad[data-day="' + day + '"]');
+    if (el) { el.classList.add('tonight'); el.scrollIntoView({ block: 'nearest', inline: 'start' }); window.scrollTo(0, 0); }
+  }
+  // Setja rétt stýrikerfi fyrst
+  var ua = navigator.userAgent;
+  if (/Android/i.test(ua)) { var g = document.querySelector('.get-grid'); g.insertBefore(document.getElementById('android'), g.firstChild); g.style.gridTemplateColumns = window.innerWidth >= 820 ? '7fr 5fr' : ''; }
+})();
+
+// Snjór
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var c = document.getElementById('snow'), x = c.getContext('2d'), w, h, dpr, flakes = [];
+  function size() { dpr = Math.min(window.devicePixelRatio || 1, 2); w = c.clientWidth; h = c.clientHeight; c.width = w * dpr; c.height = h * dpr; x.setTransform(dpr, 0, 0, dpr, 0, 0); }
+  size(); window.addEventListener('resize', size);
+  var n = Math.round(Math.min(90, w * h / 14000));
+  for (var i = 0; i < n; i++) flakes.push({ x: Math.random() * w, y: Math.random() * h, r: .8 + Math.random() * 2.2, s: .25 + Math.random() * .7, d: Math.random() * 6.28 });
+  var last = 0;
+  function tick(t) {
+    var dt = Math.min(50, t - (last || t)) / 16.7; last = t;
+    x.clearRect(0, 0, w, h); x.fillStyle = 'rgba(255,255,255,.75)'; x.beginPath();
+    for (var i = 0; i < flakes.length; i++) {
+      var f = flakes[i]; f.y += f.s * dt; f.d += .01 * dt; f.x += Math.sin(f.d) * .25 * dt;
+      if (f.y > h + 4) { f.y = -4; f.x = Math.random() * w; }
+      x.moveTo(f.x + f.r, f.y); x.arc(f.x, f.y, f.r, 0, 6.28);
+    }
+    x.fill(); if (!document.hidden) requestAnimationFrame(tick);
+  }
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) { last = 0; requestAnimationFrame(tick); } });
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
